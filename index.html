@@ -278,9 +278,10 @@ body {
 /* ── New Message Toast ────────────────────────────────────────────────── */
 .new-msg-toast {
   display: none;
-  position: sticky;
-  bottom: 12px;
-  align-self: center;
+  position: absolute;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
   padding: 8px 16px;
   background: var(--bg-surface);
   border-left: 2px solid var(--amber);
