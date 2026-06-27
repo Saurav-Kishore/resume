@@ -49,6 +49,7 @@ body {
   flex-direction: column;
   height: 100vh;
   height: 100dvh;
+  height: -webkit-fill-available;
   max-width: 720px;
   margin: 0 auto;
   background: var(--bg-page);
@@ -128,6 +129,7 @@ body {
   overflow-y: auto;
   overflow-x: hidden;
   padding: 20px 18px 16px;
+  padding-bottom: max(16px, env(safe-area-inset-bottom, 16px));
   display: flex;
   flex-direction: column;
   gap: 4px;
@@ -280,7 +282,7 @@ body {
 .new-msg-toast {
   display: none;
   position: absolute;
-  bottom: 16px;
+  bottom: max(16px, env(safe-area-inset-bottom, 16px));
   left: 50%;
   transform: translateX(-50%);
   padding: 8px 16px;
@@ -475,7 +477,10 @@ const PROFILE = {
   const toastCount  = document.getElementById('toastCount');
 
   function isNearBottom() {
-    return chatArea.scrollHeight - chatArea.scrollTop - chatArea.clientHeight < 80;
+    // Account for browser chrome (Samsung Internet bottom bar, iOS Safari bars)
+    var visualHeight = window.visualViewport ? window.visualViewport.height : chatArea.clientHeight;
+    var distance = chatArea.scrollHeight - chatArea.scrollTop - visualHeight;
+    return distance < 120;
   }
 
   function updateToast() {
