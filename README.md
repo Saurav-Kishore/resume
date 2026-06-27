@@ -2,7 +2,7 @@
 
 A dark-minimal animated AI Agent chat interface that introduces my professional profile — experience, skills, projects, and patents — through sequentially-revealed messages with a monospace "AI Agent composing…" typing indicator.
 
-**[🌐 Live Demo](https://Saurav-Kishore.github.io/my-resume-web-app/)**
+**[🌐 Live Demo](https://saurav-kishore.github.io/my-resume/)**
 
 ## ✨ Features
 
@@ -19,7 +19,7 @@ A dark-minimal animated AI Agent chat interface that introduces my professional 
 ### Step 1 — Push to GitHub
 
 ```bash
-git remote add origin https://github.com/Saurav-Kishore/my-resume-web-app.git
+git remote add origin https://github.com/Saurav-Kishore/my-resume.git
 git branch -M main
 git push -u origin main
 ```
@@ -31,7 +31,7 @@ git push -u origin main
 3. Branch: `main`, folder: `/ (root)`
 4. Click **Save**
 
-Your site will be live at `https://Saurav-Kishore.github.io/my-resume-web-app/` within ~1 minute.
+Your site will be live at `https://saurav-kishore.github.io/my-resume/` within ~1 minute.
 
 > **Tip:** `index.html` at the repo root is all GitHub Pages needs. No build step, no framework, no configuration.
 
