@@ -48,6 +48,7 @@ body {
   display: flex;
   flex-direction: column;
   height: 100vh;
+  height: 100dvh;
   max-width: 720px;
   margin: 0 auto;
   background: var(--bg-page);
@@ -130,7 +131,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 4px;
-  scroll-behavior: smooth;
+  position: relative;
   /* dot-grid pattern overlays the body bg */
   background-image: radial-gradient(circle, rgba(255,255,255,0.03) 1px, transparent 1px);
   background-size: 20px 20px;
@@ -278,10 +279,10 @@ body {
 /* ── New Message Toast ────────────────────────────────────────────────── */
 .new-msg-toast {
   display: none;
-  position: absolute;
+  position: sticky;
   bottom: 16px;
-  left: 50%;
-  transform: translateX(-50%);
+  align-self: center;
+  margin-top: auto;
   padding: 8px 16px;
   background: var(--bg-surface);
   border-left: 2px solid var(--amber);
@@ -469,6 +470,7 @@ const PROFILE = {
 
   // ── Helpers ──────────────────────────────────────────────────────────
   let unreadCount = 0;
+  let scrollProgrammatic = false;
   const newMsgToast = document.getElementById('newMsgToast');
   const toastCount  = document.getElementById('toastCount');
 
@@ -480,7 +482,6 @@ const PROFILE = {
     if (unreadCount > 0) {
       toastCount.textContent = unreadCount;
       newMsgToast.style.display = 'block';
-      // Re-trigger animation
       newMsgToast.style.animation = 'none';
       newMsgToast.offsetHeight;
       newMsgToast.style.animation = 'toastIn 0.25s ease both';
@@ -489,27 +490,29 @@ const PROFILE = {
     }
   }
 
-  function scrollToBottom(force) {
-    if (force || isNearBottom()) {
-      chatArea.scrollTo({ top: chatArea.scrollHeight, behavior: 'smooth' });
-      if (unreadCount > 0) {
-        unreadCount = 0;
-        updateToast();
-      }
+  function scrollToLatest() {
+    scrollProgrammatic = true;
+    const last = chatArea.lastElementChild;
+    if (last) {
+      last.scrollIntoView({ behavior: 'smooth', block: 'end' });
     }
+    setTimeout(function () { scrollProgrammatic = false; }, 600);
   }
 
   // User manually scrolled to bottom — dismiss toast
   chatArea.addEventListener('scroll', function () {
+    if (scrollProgrammatic) return;
     if (isNearBottom() && unreadCount > 0) {
       unreadCount = 0;
       updateToast();
     }
   });
 
-  // Click toast to jump to bottom
+  // Click toast to jump to latest
   newMsgToast.addEventListener('click', function () {
-    scrollToBottom(true);
+    unreadCount = 0;
+    updateToast();
+    scrollToLatest();
   });
 
   function nowTime() {
@@ -567,12 +570,13 @@ const PROFILE = {
       // Check scroll position NOW — user may have scrolled during typing
       const userAtBottom = isNearBottom();
 
-      createBubble(messages[i]);
+      const row = createBubble(messages[i]);
 
       if (userAtBottom) {
-        // Let browser reflow before scrolling to new scrollHeight
-        requestAnimationFrame(() => {
-          chatArea.scrollTo({ top: chatArea.scrollHeight, behavior: 'smooth' });
+        requestAnimationFrame(function () {
+          scrollProgrammatic = true;
+          row.scrollIntoView({ behavior: 'smooth', block: 'end' });
+          setTimeout(function () { scrollProgrammatic = false; }, 600);
         });
       } else {
         unreadCount++;
