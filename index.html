@@ -437,6 +437,17 @@ const PROFILE = {
     messages.push(patentHtml);
   }
 
+  if (profile.socials) {
+    let socialHtml = "📬 <strong>Let's connect!</strong><br><br>";
+    const icons = { github:'🐙', linkedin:'💼', twitter:'🐦', email:'✉️' };
+    Object.entries(profile.socials).forEach(([platform, handle]) => {
+      const icon = icons[platform] || '🔗';
+      socialHtml += icon + ' <strong>' + platform.charAt(0).toUpperCase() + platform.slice(1) +
+                    '</strong>: ' + handle + '<br>';
+    });
+    messages.push(socialHtml);
+  }
+
   // Closing two-part message
   messages.push("This agent was built to represent Saurav Kishore — an AI & Android engineer who builds autonomous systems.");
   messages.push("📬 Reach him directly via the links above.");
