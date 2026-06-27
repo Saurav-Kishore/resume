@@ -414,7 +414,7 @@ const PROFILE = {
     let expHtml = "💼 <strong>Work Experience</strong><br><br>";
     profile.experience.forEach(e => {
       expHtml +=
-        '🔹 <strong>' + e.role + '</strong><br>' +
+        '<strong>' + e.role + '</strong><br>' +
         '<span style="color:var(--text-secondary);">' + e.company +
         ' &nbsp;·&nbsp; <span style="color:var(--text-secondary);font-size:11px;font-style:italic;">' + e.years + '</span></span><br><br>';
     });
@@ -424,7 +424,7 @@ const PROFILE = {
   if (profile.projects && profile.projects.length) {
     let projHtml = "🚀 <strong>Projects I've built</strong><br><br>";
     profile.projects.forEach(p => {
-      projHtml += '✨ ' + p + '<br>';
+      projHtml += '— ' + p + '<br>';
     });
     messages.push(projHtml);
   }
@@ -508,7 +508,10 @@ const PROFILE = {
       typing.remove();
       createBubble(messages[i]);
 
-      await typeDelay(800);
+      // Dynamic pause: longer messages get more reading time
+      const msgText = messages[i].replace(/<[^>]*>/g, '');
+      const pause = Math.min(5000, 800 + msgText.length * 25);
+      await typeDelay(pause);
     }
 
     // After last message, update status
