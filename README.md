@@ -1,16 +1,17 @@
-# Saurav Kishore — Professional Profile Dashboard
+# Saurav Kishore — AI Agent Chat Dashboard
 
-A WhatsApp-style animated chat dashboard that introduces my professional profile — experience, skills, projects, and patents — through sequentially-revealed chat bubbles with a typing indicator.
+A dark-minimal animated AI Agent chat interface that introduces my professional profile — experience, skills, projects, and patents — through sequentially-revealed messages with a monospace "AI Agent composing…" typing indicator.
 
 **[🌐 Live Demo](https://Saurav-Kishore.github.io/personal-web-app/)**
 
 ## ✨ Features
 
-- WhatsApp-inspired UI with teal header, chat wallpaper, and message bubbles
-- Sequential message reveal with animated typing indicator (3 pulsing dots)
+- Dark charcoal & amber palette — elegant, minimal, easy on the eyes
+- "AI Agent" framing — the chat introduces itself as an AI agent representing Saurav
+- Sequential message reveal with animated monospace "AI Agent composing…" typing label
 - Slide-up animations on every chat bubble
 - Responsive design — looks great on mobile and desktop
-- Skill chips with hover effects
+- Original design language — not inspired by any existing app
 - Self-contained single file — no dependencies, no server
 
 ## 🚀 Host on GitHub Pages (Free)
