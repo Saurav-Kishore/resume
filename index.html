@@ -305,26 +305,6 @@ body {
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* ── Footer ───────────────────────────────────────────────────────────── */
-.footer {
-  background: var(--bg-page);
-  padding: 12px 18px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  border-top: 1px solid var(--border-divider);
-  z-index: 10;
-}
-
-.footer span {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  color: var(--text-secondary);
-  letter-spacing: 1px;
-  opacity: 0.6;
-}
-
 /* ── Responsive ───────────────────────────────────────────────────────── */
 @media (max-width: 600px) {
   .app { max-width: 100%; }
@@ -355,10 +335,6 @@ body {
     <div class="new-msg-toast" id="newMsgToast">↓ <span id="toastCount">0</span> new messages</div>
   </div>
 
-  <!-- Footer -->
-  <div class="footer">
-    <span>Saurav Kishore</span>
-  </div>
 </div>
 
 <script>
@@ -557,8 +533,8 @@ const PROFILE = {
     row.appendChild(labelSpan);
 
     chatArea.appendChild(row);
-    // Never force-scroll for typing indicator — just append
-    if (isNearBottom()) {
+    // Scroll to show typing indicator only if user was already at bottom
+    if (wasNearBottom) {
       chatArea.scrollTo({ top: chatArea.scrollHeight, behavior: 'smooth' });
     }
     return row;
@@ -586,6 +562,9 @@ const PROFILE = {
     await typeDelay(400);
 
     for (let i = 0; i < messages.length; i++) {
+      // Snapshot scroll position BEFORE any DOM changes
+      const wasNearBottom = isNearBottom();
+
       // Typing duration scales with the NEXT message's length
       const typingDuration = Math.min(4500, 300 + msgLengths[i] * 14);
       const typing = createTypingIndicator();
@@ -594,8 +573,8 @@ const PROFILE = {
       typing.remove();
       createBubble(messages[i]);
 
-      // Scroll to bottom only if user hasn't scrolled away
-      if (isNearBottom()) {
+      // Captured BEFORE DOM change — new bubble distorts scrollHeight
+      if (wasNearBottom) {
         scrollToBottom(true);
       } else {
         unreadCount++;
