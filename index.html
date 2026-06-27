@@ -506,23 +506,26 @@ const PROFILE = {
   }
 
   async function revealMessages() {
+    // Pre-compute text lengths for dynamic typing durations
+    const msgLengths = messages.map(m => m.replace(/<[^>]*>/g, '').length);
+
     await typeDelay(600);
 
     for (let i = 0; i < messages.length; i++) {
+      // Typing duration scales with the NEXT message's length
+      const typingDuration = Math.min(3500, 400 + msgLengths[i] * 10);
       const typing = createTypingIndicator();
-      await typeDelay(1400);
+      await typeDelay(typingDuration);
 
       typing.remove();
       createBubble(messages[i]);
 
-      // Dynamic pause: longer messages get more reading time
-      const msgText = messages[i].replace(/<[^>]*>/g, '');
-      const pause = Math.min(3500, 800 + msgText.length * 18);
-      await typeDelay(pause);
+      // Fixed breath between messages
+      await typeDelay(400);
     }
 
     // After last message, update status
-    await typeDelay(1200);
+    await typeDelay(1000);
     statusEl.textContent = "You're chatting with an AI agent";
   }
 
