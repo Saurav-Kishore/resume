@@ -510,7 +510,7 @@ const PROFILE = {
 
       // Dynamic pause: longer messages get more reading time
       const msgText = messages[i].replace(/<[^>]*>/g, '');
-      const pause = Math.min(5000, 800 + msgText.length * 25);
+      const pause = Math.min(3500, 800 + msgText.length * 18);
       await typeDelay(pause);
     }
 
