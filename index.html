@@ -442,8 +442,15 @@ const PROFILE = {
     const icons = { github:'🐙', linkedin:'💼', twitter:'🐦', email:'✉️' };
     Object.entries(profile.socials).forEach(([platform, handle]) => {
       const icon = icons[platform] || '🔗';
-      socialHtml += icon + ' <strong>' + platform.charAt(0).toUpperCase() + platform.slice(1) +
-                    '</strong>: ' + handle + '<br>';
+      let href;
+      if (platform === 'email') {
+        href = 'mailto:' + handle;
+      } else {
+        href = 'https://' + handle;
+      }
+      socialHtml += icon + ' <a href="' + href + '" target="_blank" rel="noopener">' +
+                    '<strong>' + platform.charAt(0).toUpperCase() + platform.slice(1) +
+                    '</strong>: ' + handle + '</a><br>';
     });
     messages.push(socialHtml);
   }
